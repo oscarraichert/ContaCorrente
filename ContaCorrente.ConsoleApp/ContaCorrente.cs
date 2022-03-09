@@ -12,9 +12,9 @@ namespace ContaCorrente.ConsoleApp
         public int i;
         private static Random Rand = new Random();
 
-        public ContaCorrente(decimal saldo, bool especial, decimal limiteSaque)
+        public ContaCorrente(string numero, decimal saldo, bool especial, decimal limiteSaque)
         {
-            Numero = GerarNumeroConta();
+            Numero = numero;
             Saldo = saldo;
             Especial = especial;
             LimiteSaque = limiteSaque;
