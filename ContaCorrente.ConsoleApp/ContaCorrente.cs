@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 
 namespace ContaCorrente.ConsoleApp
 {
@@ -8,59 +8,54 @@ namespace ContaCorrente.ConsoleApp
         public decimal Saldo;
         public bool Especial;
         public decimal LimiteSaque;
-        public string[] Movimentacoes;
+        public string[] Movimentacoes = new string[100];
         public int i;
-        public Random rand;
+        private static Random Rand = new Random();
 
-        public ContaCorrente(string numero, decimal saldo, bool especial, decimal limiteSaque)
+        public ContaCorrente(decimal saldo, bool especial, decimal limiteSaque)
         {
-            Numero = numero;
+            Numero = GerarNumeroConta();
             Saldo = saldo;
             Especial = especial;
             LimiteSaque = limiteSaque;
         }
 
-        public string GerarNumeroConta()
+        private static string GerarNumeroConta()
         {
-            rand = new Random();
-            int Numero = rand.Next(1000, 2000);
+            int Numero = Rand.Next(1000, 2000);
 
             return $"{Numero}";
         }
 
-        public decimal GerarSaldo()
+        public static decimal GerarSaldoInicial()
         {
-            Saldo = rand.Next(0, 10000);
+            decimal saldo = Rand.Next(0, 10000);
 
-            return Saldo;
+            return saldo;
         }
 
-        public bool GerarStatus()
+        public static bool GerarStatus()
         {
             int i = rand.Next(0, 1);
 
             if (i == 0)
             {
-                Especial = true;
+                return true;
             }
-
-            else Especial = false;
-
-            return Especial;
+            else 
+            {
+                return false;
+            }
         }
 
-        public decimal GerarLimite()
+        public static decimal GerarLimite()
         {
-            LimiteSaque = rand.Next(3000, 4000);
-            
-            return LimiteSaque;
+            return rand.Next(3000, 4000);
         }
 
-        public string MostrarMovimentacoes()
+        public string MostrarUltimaMovimentacao()
         {
-            
-            
-            return Movimentacoes[i];
+            return Movimentacoes[i - 1];
         }
     }
 }
