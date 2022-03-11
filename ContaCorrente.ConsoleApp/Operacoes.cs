@@ -5,24 +5,67 @@ namespace ContaCorrente.ConsoleApp
     public class Operacoes
     {
         public ContaCorrente Conta;
-        
-        public decimal Saque()
-        {
-            decimal valorSaque = Conta.Saldo - Conta.rand.Next(50, 5000);
 
+        public Operacoes(ContaCorrente contaCorrente)
+        {
+            Conta = contaCorrente;
+        }
+
+        public string Saque(decimal valorSaque)
+        {                        
             if (valorSaque > Conta.LimiteSaque)
-            {
-                Console.WriteLine("O valor excede o limite de saque");
-                return Conta.Saldo;
+            {                
+                return "O valor excede o limite de saque";
             }
 
-            else if (valorSaque > Conta.Saldo)
+            if (valorSaque > Conta.Saldo)
+            {                
+                return "Saldo insuficiente";
+            }
+
+            Conta.Saldo -= valorSaque;
+
+            Movimentacao mov = new Movimentacao(TipoDeMovimentacao.Saque, valorSaque);
+
+            Conta.AdicionarMovimentacao(mov);
+
+            return $"{mov}";
+        }
+
+        public string Deposito(decimal valor)
+        {
+            Conta.Saldo += valor;
+
+            Movimentacao mov = new Movimentacao(TipoDeMovimentacao.Deposito, valor);
+            Conta.AdicionarMovimentacao(mov);
+
+            return $"{mov}";
+        }
+
+        public string EmissaoSaldo()
+        {
+            return $"Seu saldo é: R${Conta.Saldo}";
+        }
+
+        public string Extrato()
+        {
+            return $"{Conta.Movimentacoes}";
+        }
+
+        public string Transferencia(ContaCorrente contaDestino, decimal valor)
+        {
+            if (Conta.Saldo < valor)
             {
-                Console.WriteLine("Saldo insuficiente");
-                return Conta.Saldo;
+                return "Saldo insuficiente para transferência.";
             }
             
-            else return valorSaque;
+            Conta.Saldo -= valor;
+            contaDestino.Saldo += valor;
+
+            Movimentacao mov = new Movimentacao(TipoDeMovimentacao.Transferencia, valor);
+            Conta.AdicionarMovimentacao(mov);
+
+            return $"{mov}";
         }
     }
 }

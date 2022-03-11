@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace ContaCorrente.ConsoleApp
+﻿namespace ContaCorrente.ConsoleApp
 {
     public class ContaCorrente
     {
@@ -8,9 +6,9 @@ namespace ContaCorrente.ConsoleApp
         public decimal Saldo;
         public bool Especial;
         public decimal LimiteSaque;
-        public string[] Movimentacoes;
+        public Movimentacao[] Movimentacoes;
         public int i;
-        public Random rand;
+        public Operacoes Operacoes;
 
         public ContaCorrente(string numero, decimal saldo, bool especial, decimal limiteSaque)
         {
@@ -18,49 +16,23 @@ namespace ContaCorrente.ConsoleApp
             Saldo = saldo;
             Especial = especial;
             LimiteSaque = limiteSaque;
+            Operacoes = new Operacoes(this);
+            Movimentacoes = new Movimentacao[100];
         }
 
-        public string GerarNumeroConta()
+        public override string ToString()
         {
-            rand = new Random();
-            int Numero = rand.Next(1000, 2000);
+            string status = Especial == true? "Especial" : "Básica";
 
-            return $"{Numero}";
+            return $"Número da conta: {Numero}" +
+                $"\nSaldo: R${Saldo}" +
+                $"\nStatus da conta: {status}" +
+                $"\nLimite de saque: R${LimiteSaque}";
         }
 
-        public decimal GerarSaldo()
+        public void AdicionarMovimentacao(Movimentacao movimentacao)
         {
-            Saldo = rand.Next(0, 10000);
-
-            return Saldo;
-        }
-
-        public bool GerarStatus()
-        {
-            int i = rand.Next(0, 1);
-
-            if (i == 0)
-            {
-                Especial = true;
-            }
-
-            else Especial = false;
-
-            return Especial;
-        }
-
-        public decimal GerarLimite()
-        {
-            LimiteSaque = rand.Next(3000, 4000);
-            
-            return LimiteSaque;
-        }
-
-        public string MostrarMovimentacoes()
-        {
-            
-            
-            return Movimentacoes[i];
+            Movimentacoes[i++] = movimentacao;
         }
     }
 }

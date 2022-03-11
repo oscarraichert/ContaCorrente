@@ -1,30 +1,52 @@
 ﻿using System;
+using System.Linq;
 
 namespace ContaCorrente.ConsoleApp
 {
     internal class Program
     {
-        public static ContaCorrente[] Conta = new ContaCorrente[10];
+        public static ContaCorrente[] Contas = new ContaCorrente[10];
         public static int numeroContas = 0;
 
         static void Main(string[] args)
         {
             CriarContas();
+            GerarMovimentacoes();
+            VisualizarMovimentacoes();
+        }
+
+        private static void VisualizarMovimentacoes()
+        {
+            foreach (ContaCorrente conta in Contas)
+            {
+                Console.WriteLine($"\n{conta}\n");
+                foreach (Movimentacao mov in conta.Movimentacoes)
+                {
+                    if (mov != null)
+                    {
+                        Console.WriteLine(mov);
+                    }
+                }
+
+                Console.WriteLine("----------------------------------------------------------------------------------------------");
+            }
+        }
+
+        private static void GerarMovimentacoes()
+        {
+            GeradorAleatorio gerador = new GeradorAleatorio(Contas);
+
+            foreach (ContaCorrente conta in Contas)
+            {
+                gerador.GerarMovimentacoes(GeradorAleatorio.Random.Next(3, 10), conta);
+            }
         }
 
         public static void CriarContas()
         {
-            for (int i = 0; i < Conta.Length; i++)
+            for (int i = 0; i < Contas.Length; i++)
             {
-                ContaCorrente conta = new ContaCorrente(null, 0, false, 0);
-
-                string numero = conta.GerarNumeroConta();
-                decimal saldo = conta.GerarSaldo();
-                bool especial = conta.GerarStatus();
-                decimal limite = conta.GerarLimite();
-
-                conta = new ContaCorrente(numero, saldo, especial, limite);
-                Conta[numeroContas++] = conta;               
+                Contas[numeroContas++] = GeradorAleatorio.GerarConta();
             }
         }
     }
