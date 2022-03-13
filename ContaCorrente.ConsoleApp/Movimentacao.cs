@@ -2,7 +2,7 @@
 {
     public enum TipoDeMovimentacao
     {
-        Saque, Deposito, Transferencia
+        Saque, Deposito, Transferencia, EmissaoSaldo
     }
 
     public class Movimentacao
@@ -19,7 +19,7 @@
 
         public override string ToString()
         {
-            return $"{Tipo} no valor de R${Valor} efetuado com sucesso."; ;
+            return Tipo != TipoDeMovimentacao.EmissaoSaldo? $"{Tipo} no valor de R${Valor} efetuado com sucesso." : $"Saldo: R${Valor}";
         }
     }
 }

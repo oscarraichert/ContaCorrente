@@ -42,7 +42,10 @@
 
         public string EmissaoSaldo()
         {
-            return $"Seu saldo é: R${Conta.Saldo}";
+            Movimentacao mov = new Movimentacao(TipoDeMovimentacao.EmissaoSaldo, Conta.Saldo);
+            Conta.AdicionarMovimentacao(mov);
+
+            return $"{mov}";
         }
 
         public string Extrato()
